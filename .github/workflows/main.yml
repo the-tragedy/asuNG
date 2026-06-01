@@ -1,28 +1,37 @@
-name: Generate Keystore
+name: Build APK
 
 on:
+  push:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
-  generate:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate Keystore
-        run: |
-          keytool -genkey -v \
-            -keystore keystore.jks \
-            -alias mykey \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 9125 \
-            -storepass mypassword123 \
-            -keypass mypassword123 \
-            -dname "CN=MyVPN, OU=Dev, O=MyOrg, L=City, S=State, C=US"
-          base64 keystore.jks > keystore_base64.txt
-          cat keystore_base64.txt
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-      - name: Upload Keystore
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: keystore
-          path: keystore_base64.txt
+          name: app-release
+          path: V2rayNG/app/build/outputs/apk/release/*.apk
