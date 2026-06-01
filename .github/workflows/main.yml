@@ -23,7 +23,7 @@ jobs:
         run: chmod +x V2rayNG/gradlew
 
       - name: Build Release APK
-        run: cd V2rayNG && ./gradlew assembleFossRelease
+        run: cd V2rayNG && ./gradlew assembleRelease
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: V2rayNG/app/build/outputs/apk/foss/release/*.apk
+          path: V2rayNG/app/build/outputs/apk/**/release/*.apk
