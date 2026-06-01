@@ -22,16 +22,11 @@ jobs:
       - name: Grant execute permission
         run: chmod +x V2rayNG/gradlew
 
-      - name: Build Release APK
-        run: cd V2rayNG && ./gradlew assembleRelease
-        env:
-          KEYSTORE: ${{ secrets.KEYSTORE }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      - name: Build Debug APK
+        run: cd V2rayNG && ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: V2rayNG/app/build/outputs/apk/**/release/*.apk
+          name: app-debug
+          path: V2rayNG/app/build/outputs/apk/**/debug/*.apk
