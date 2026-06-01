@@ -10,7 +10,7 @@ A V2Ray client for Android, support [Xray core](https://github.com/XTLS/Xray-cor
 [![Chat on Telegram](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg)](https://t.me/v2rayn)
 
 ### Telegram Channel
-[github_2dust](https://t.me/github_2dust)
+[OFasuh](https://t.me/ofasuh)
 
 ### Usage
 
